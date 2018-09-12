@@ -125,13 +125,15 @@ def print_evaluated_generation(generation_evaluated, CORRECT_WORD):
 	print "*" + "-" * (len(CORRECT_WORD) + 5 + len(str(individual[1]))-1) + "*"
 
 def main():
+	# Setting up agruments parser.
 	parser = argparse.ArgumentParser(description='This is a simple genetic algorithm using to find a word.')
-
 	parser.add_argument("-w", "--word", required=True, help="This is the target word")
 	parser.add_argument("-s", "--generation_size",type=int, default=20, help="This is the generation size")
 	parser.add_argument("-b", "--amount_of_best", default=6, type=int, help="This is the amount of the best individuals to pick from each generation.")
 	parser.add_argument("-l", "--amount_of_lucky", default=4, type=int, help="This is the amount of the lucky few individuals to pick from each generation.")
 	parser.add_argument("-c", "--mutation_chance", default=25, type=int, help="This is the chance of word to get mutated (by percentage)")
+	
+	# Parsing the arguments.
 	args = parser.parse_args()
 	if args.amount_of_best + args.amount_of_lucky != 10:
 		print "Amount of best and amount of luck should be 10."
@@ -141,9 +143,22 @@ def main():
 	AMOUNT_OF_BEST = args.amount_of_best
 	AMOUNT_OF_RANDOM = args.amount_of_lucky
 	MUTATION_CHANCE = args.mutation_chance
+
+	# Generating first generation
 	generation = generate_first_generation(GENERATION_SIZE, CORRECT_WORD)
 	generation_evaluated = evaluate_generation(generation, CORRECT_WORD)
 	while generation_evaluated[0][1] != 100:
+		"""
+		Enterting the main loop:
+		Here we simply calling all the functions until we get fitness of 100.
+		We are calling in this order:
+		1. First we are making a selection from the old generation of few of the best ones
+		   And a couple of lucky ones
+		2. We generate new generation using the seleced individuals as parents for the new ones.
+		3. Mutate Generation so it will be a little different.
+		4. Evaluate the generation.
+		5. Repeat, Selection => generate newer generation => mutate => evaluate, until fitness 100.
+		"""
 		generation_selected = generation_selection(generation_evaluated, AMOUNT_OF_BEST, AMOUNT_OF_RANDOM)
 		generation = generate_generation(generation_selected, GENERATION_SIZE)
 		generation_mutated = mutate_generation(generation, MUTATION_CHANCE)
