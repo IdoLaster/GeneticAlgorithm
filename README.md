@@ -1,6 +1,6 @@
 # Genetic Algorithm
 A basic genetic algorithm written in python that meant to "find" a word.
-This is only support letters (a-z, A-Z).
+This is only support letters (a-z, A-Z).\
 There is a option to output some inforamtion as json in this format:
 ```
 {
