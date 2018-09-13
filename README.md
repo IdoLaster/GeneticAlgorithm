@@ -1,5 +1,6 @@
 # Genetic Algorithm
-A basic genetic algorithm written in python that meant to "find" a word. 
+A basic genetic algorithm written in python that meant to "find" a word.
+This is only support letters (a-z, A-Z).
 
 ### Usage:
 
