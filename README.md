@@ -2,13 +2,15 @@
 A basic genetic algorithm written in python that meant to "find" a word.
 This is only support letters (a-z, A-Z).
 There is a option to output some inforamtion as json in this format:
-```{
+```
+{
 	GENERATION_NUMBER: 
 	{
 		"average_fitness": AVERAGE_FITNESS,
 		"best": ["BEST_AS_STRING", BEST_FITNESS]
 	}
-}```
+}
+```
 
 ### Usage:
 
