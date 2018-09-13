@@ -2,6 +2,7 @@ import random
 import string
 import operator
 import argparse
+import json
 
 def generate_word(length):
 	"""
@@ -116,13 +117,26 @@ def mutate_generation(generation, chance):
 			generation[i] = mutated_word
 	return generation
 
-def print_evaluated_generation(generation_evaluated, CORRECT_WORD):
+def print_evaluated_generation(generation_evaluated, CORRECT_WORD, generation_number):
 	"""
 	This function just prints an evaluated generation.
 	"""
+	print "============="
+	print "GENERATION " + str(generation_number)
+	print "============="
 	for individual in generation_evaluated:
 		print individual[0] + " => " + str(individual[1])
 	print "*" + "-" * (len(CORRECT_WORD) + 5 + len(str(individual[1]))-1) + "*"
+
+def average_generation_fitness(generation_evaluated):
+	"""
+	This function just averages the fitness of a generation, used for the json output feature.
+	"""
+	sum_of_fitness = 0
+	for individual in generation_evaluated:
+		sum_of_fitness += individual[1]
+	return sum_of_fitness / len(generation_evaluated)
+
 
 def main():
 	# Setting up agruments parser.
@@ -132,6 +146,7 @@ def main():
 	parser.add_argument("-b", "--amount_of_best", default=6, type=int, help="This is the amount of the best individuals to pick from each generation.")
 	parser.add_argument("-l", "--amount_of_lucky", default=4, type=int, help="This is the amount of the lucky few individuals to pick from each generation.")
 	parser.add_argument("-c", "--mutation_chance", default=25, type=int, help="This is the chance of word to get mutated (by percentage)")
+	parser.add_argument("-j", "--json", help="the file to output the result as json.")
 	
 	# Parsing the arguments.
 	args = parser.parse_args()
@@ -144,6 +159,10 @@ def main():
 	AMOUNT_OF_RANDOM = args.amount_of_lucky
 	MUTATION_CHANCE = args.mutation_chance
 
+	#This is for the json output.
+	generations = {}
+
+	generation_number = 1
 	# Generating first generation
 	generation = generate_first_generation(GENERATION_SIZE, CORRECT_WORD)
 	generation_evaluated = evaluate_generation(generation, CORRECT_WORD)
@@ -158,12 +177,27 @@ def main():
 		3. Mutate Generation so it will be a little different.
 		4. Evaluate the generation.
 		5. Repeat, Selection => generate newer generation => mutate => evaluate, until fitness 100.
+		   Also doing some json related stuff.
 		"""
+
+		# This stuff is for the json output.
+		generations[generation_number] = {}
+		average_fitness = average_generation_fitness(generation_evaluated)
+		generations[generation_number]["average_fitness"] = average_fitness
+		generations[generation_number]["best"] = generation_evaluated[0]
+
+		# This is the actual loop
 		generation_selected = generation_selection(generation_evaluated, AMOUNT_OF_BEST, AMOUNT_OF_RANDOM)
 		generation = generate_generation(generation_selected, GENERATION_SIZE)
 		generation_mutated = mutate_generation(generation, MUTATION_CHANCE)
 		generation_evaluated = evaluate_generation(generation_mutated, CORRECT_WORD)
-		print_evaluated_generation(generation_evaluated, CORRECT_WORD)
+		print_evaluated_generation(generation_evaluated, CORRECT_WORD, generation_number)
+		generation_number += 1
+
+	# In case we have a json output file, we would like to write to it.
+	if args.json:
+		with open(args.json,"w") as f:
+			f.write(json.dumps(generations))
 
 if __name__ == "__main__":
     main()
