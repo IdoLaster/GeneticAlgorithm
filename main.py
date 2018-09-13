@@ -135,8 +135,8 @@ def main():
 	
 	# Parsing the arguments.
 	args = parser.parse_args()
-	if args.amount_of_best + args.amount_of_lucky != 10:
-		print "Amount of best and amount of luck should be 10."
+	if args.amount_of_best + args.amount_of_lucky > args.generation_size:
+		print "Amount of best and amount of luck should not be more then the generation size."
 		return
 	CORRECT_WORD = args.word
 	GENERATION_SIZE = args.generation_size
