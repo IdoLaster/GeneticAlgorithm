@@ -3,6 +3,8 @@ import string
 import operator
 import argparse
 import json
+import matplotlib.pyplot as plt
+import numpy as np
 
 def generate_word(length):
 	"""
@@ -147,6 +149,7 @@ def main():
 	parser.add_argument("-l", "--amount_of_lucky", default=4, type=int, help="This is the amount of the lucky few individuals to pick from each generation.")
 	parser.add_argument("-c", "--mutation_chance", default=25, type=int, help="This is the chance of word to get mutated (by percentage)")
 	parser.add_argument("-j", "--json", help="the file to output the result as json.")
+	parser.add_argument("-v", "--visualization", action="store_true", help="Set this flag if you want the data to be visualized after the program ran.")
 	
 	# Parsing the arguments.
 	args = parser.parse_args()
@@ -166,6 +169,12 @@ def main():
 	# Generating first generation
 	generation = generate_first_generation(GENERATION_SIZE, CORRECT_WORD)
 	generation_evaluated = evaluate_generation(generation, CORRECT_WORD)
+
+	# Just json stuff
+	generations[generation_number] = {}
+	average_fitness = average_generation_fitness(generation_evaluated)
+	generations[generation_number]["average_fitness"] = average_fitness
+	generations[generation_number]["best"] = generation_evaluated[0]
 	while generation_evaluated[0][1] != 100:
 		"""
 		Enterting the main loop:
@@ -180,11 +189,6 @@ def main():
 		   Also doing some json related stuff.
 		"""
 
-		# This stuff is for the json output.
-		generations[generation_number] = {}
-		average_fitness = average_generation_fitness(generation_evaluated)
-		generations[generation_number]["average_fitness"] = average_fitness
-		generations[generation_number]["best"] = generation_evaluated[0]
 
 		# This is the actual loop
 		generation_selected = generation_selection(generation_evaluated, AMOUNT_OF_BEST, AMOUNT_OF_RANDOM)
@@ -192,12 +196,41 @@ def main():
 		generation_mutated = mutate_generation(generation, MUTATION_CHANCE)
 		generation_evaluated = evaluate_generation(generation_mutated, CORRECT_WORD)
 		print_evaluated_generation(generation_evaluated, CORRECT_WORD, generation_number)
+
+		# This stuff is for the json output.
+		generations[generation_number] = {}
+		average_fitness = average_generation_fitness(generation_evaluated)
+		generations[generation_number]["average_fitness"] = average_fitness
+		generations[generation_number]["best"] = generation_evaluated[0]
+
 		generation_number += 1
 
 	# In case we have a json output file, we would like to write to it.
 	if args.json:
 		with open(args.json,"w") as f:
 			f.write(json.dumps(generations))
+
+	# In case we we want the fitness data to be visualized.
+	if args.visualization:
+		# First we set up some plot stuff.
+		plt.xlabel("Generations")
+		plt.ylabel("Fitness")
+		plt.title("Fitness Graph Average/Best Graph")
+
+		# Now we get the x and y coords of the graphs
+		y_avarge_fitness = []
+		y_best_fitness = []
+		for generation in generations.keys():
+			average_fitness = generations[generation]['average_fitness']
+			y_avarge_fitness.append(average_fitness)
+			best_fitness = generations[generation]['best'][1]
+			y_best_fitness.append(best_fitness)
+		x_coords = (range(1, len(y_avarge_fitness) + 1))
+
+		# Draw and show them! :)
+		plt.plot(x_coords, y_avarge_fitness, color="green")
+		plt.plot(x_coords, y_best_fitness, color="orange")
+		plt.show()
 
 if __name__ == "__main__":
     main()
