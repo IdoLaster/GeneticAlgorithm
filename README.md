@@ -20,7 +20,7 @@ $ python main.py --help
 
 ```
 usage: main.py [-h] -w WORD [-s GENERATION_SIZE] [-b AMOUNT_OF_BEST]
-               [-l AMOUNT_OF_LUCKY] [-c MUTATION_CHANCE]
+               [-l AMOUNT_OF_LUCKY] [-c MUTATION_CHANCE] [-j JSON] [-v]
 
 This is a simple genetic algorithm using to find a word.
 
@@ -38,6 +38,9 @@ optional arguments:
   -c MUTATION_CHANCE, --mutation_chance MUTATION_CHANCE
                         This is the chance of word to get mutated (by
                         percentage)
+  -j JSON, --json JSON  the file to output the result as json.
+  -v, --visualization   Set this flag if you want the data to be visualized
+                        after the program ran.
 ```
 
 
@@ -49,92 +52,76 @@ python main.py -w Bunny -s 50 -b 15 -l 5 -c 50
 
 We will get:
 ```
-BzJcy => 40
-YuFsQ => 20
-TlnTh => 20
-rVqoy => 20
-NOnul => 20
-zZSNy => 20
-rmfoy => 20
-vOntl => 20
-NanhF => 20
-fZSNy => 20
-HuVgo => 20
-BzJae => 20
-JlSNy => 20
-xjkdy => 20
-QZSgy => 20
-QOnTq => 20
-QZhWy => 20
-fufuC => 20
-HuVkA => 20
-BzJZv => 20
-mmqoy => 20
-jkSiy => 20
-QZvNy => 20
-BiJtl => 20
-rmCoy => 20
-HuSNu => 20
-JuVEh => 20
-BaFsv => 20
-QZSNy => 20
-rmqoy => 20
-cOnTq => 20
-fgzui => 0
-RaFse => 0
-KZvAc => 0
-vghul => 0
-zVCui => 0
-xkiXh => 0
-fKXLw => 0
-fzJuC => 0
-Jgvhh => 0
-YkFiF => 0
-RQfHC => 0
-RZvIA => 0
-NOIAA => 0
-vHqtl => 0
-gqhte => 0
-xgiXj => 0
-RHgiG => 0
-NOiTj => 0
-hYXLw => 0
-Rngie => 0
-fedWQ => 0
-hlvhh => 0
-RFGgq => 0
-fedWA => 0
-fEFsQ => 0
-zqvXj => 0
-hjXde => 0
-fefWQ => 0
-daFsF => 0
-hYXLF => 0
-feitl => 0
-ROGWo => 0
+=============
+GENERATION 1
+=============
+Imnbs => 20
+RanwM => 20
+uPsFy => 20
+nCZdy => 20
+uTSdy => 20
+BqADW => 20
+chnwD => 20
+BPsDO => 20
+uanFD => 20
+uenAl => 20
+chRbW => 0
+tTzgD => 0
+feRZW => 0
+cCSlW => 0
+tezAF => 0
+ImZbM => 0
+tkAis => 0
+IPsbA => 0
+flZPl => 0
+ukADM => 0
 *----------*
-BuIcy => 60
-BzJay => 40
-Huqgy => 40
-Bzfay => 40
+=============
+GENERATION 2
+=============
+RanwF => 20
+Imnbs => 20
+flZdy => 20
+ueSdy => 20
+IenAF => 20
+nCZdy => 20
+nCzAy => 20
+ImZOs => 0
+Imsbs => 0
+teDAF => 0
 ...
-*-----------*
+=============
+GENERATION 63
+=============
+hunny => 80
+Sunny => 80
+munny => 80
+Eunny => 80
+punny => 80
+pWnny => 60
+munvy => 60
+mmnny => 60
+Sunnx => 60
+hJnny => 60
+...
+=============
+GENERATION 194
+=============
 Bunny => 100
-Bunpy => 80
-Bunvy => 80
-Bunty => 80
-Buniy => 80
-BunRy => 80
-Bunhy => 80
-BunVy => 80
-Bunly => 80
-BunHy => 80
-BunNy => 80
-Bunqy => 80
-Bunwy => 80
-Bunuy => 80
-...
+Funny => 80
+Lunny => 80
+Xunay => 60
+Fvnny => 60
+LunnF => 60
+Xvnny => 60
+XunnF => 60
+FunnF => 60
+FunnR => 60
+Fvnay => 40
+yvnRy => 40
+FunRv => 40
+FvnnF => 40
+FvVny => 40
 *-----------*
-
 ```
 This has been shorten because the log was like 800 lines.
