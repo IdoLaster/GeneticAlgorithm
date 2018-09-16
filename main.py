@@ -230,6 +230,7 @@ def main():
 		# Draw and show them! :)
 		plt.plot(x_coords, y_avarge_fitness, color="green")
 		plt.plot(x_coords, y_best_fitness, color="orange")
+		plt.legend(["Average Fitness", "Best Fitness"])
 		plt.show()
 
 if __name__ == "__main__":
