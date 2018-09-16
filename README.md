@@ -47,7 +47,7 @@ optional arguments:
 ### Examples:
 For the following command:
 ```
-python main.py -w Bunny -s 50 -b 15 -l 5 -c 50
+python main.py -w Bunny
 ```
 
 We will get:
